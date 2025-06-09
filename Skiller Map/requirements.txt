@@ -1,0 +1,6 @@
+Flask
+matplotlib
+pdfplumber
+openai
+PyGithub
+python-dotenv
