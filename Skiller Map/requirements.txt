@@ -4,4 +4,4 @@ pdfplumber
 PyGithub
 python-dotenv
 gunicorn==20.1.0
-openai==1.84.0
+openai==0.28.0
