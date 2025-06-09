@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Skiller Map - Career Skill Analyzer</title>
+
+  <!-- Google Fonts for fresh modern vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Roboto+Mono&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Skiller Map</h1>
+      <p class="tagline">Map your career path with data-driven in Next Level</p>
+    </header>
+
+    <form method="POST" enctype="multipart/form-data" class="input-form" autocomplete="off">
+      <div class="form-group">
+        <label for="resume">Upload your Resume (PDF):</label>
+        <input type="file" id="resume" name="resume" accept="application/pdf" required />
+      </div>
+
+      <div class="form-group">
+        <label for="github_username">GitHub Username:</label>
+        <input type="text" id="github_username" name="github_username" placeholder="Enter GitHub username" required />
+      </div>
+
+      <button type="submit" class="btn-primary">Analyze My Skills</button>
+    </form>
+
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    {% if resume_skills %}
+    <section class="results">
+
+      <h2>Results for <span class="highlight">{{ github_username }}</span></h2>
+
+      <div class="plots-grid">
+        {% if resume_skill_img %}
+        <div class="plot-item">
+          <h3>Resume Skills Ranking</h3>
+          <img src="data:image/png;base64,{{ resume_skill_img }}" alt="Resume Skills Plot" />
+        </div>
+        {% endif %}
+
+        {% if github_lang_img %}
+        <div class="plot-item">
+          <h3>GitHub Language Usage</h3>
+          <img src="data:image/png;base64,{{ github_lang_img }}" alt="GitHub Languages Plot" />
+        </div>
+        {% endif %}
+
+        {% if repo_lang_img %}
+        <div class="plot-item">
+          <h3>Repos by Language</h3>
+          <img src="data:image/png;base64,{{ repo_lang_img }}" alt="Repo Language Count Plot" />
+        </div>
+        {% endif %}
+
+        {% if skill_dist_img %}
+        <div class="plot-item">
+          <h3>Skill Level Distribution</h3>
+          <img src="data:image/png;base64,{{ skill_dist_img }}" alt="Skill Level Distribution Plot" />
+        </div>
+        {% endif %}
+      </div>
+
+      <article class="suggestions">
+        <h3>Career & Skill Suggestions</h3>
+        <pre>{{ suggestions }}</pre>
+      </article>
+
+      <article class="skill-list">
+        <h3>Your Extracted Skills</h3>
+        <ul>
+          {% for skill, level in resume_skills.items() %}
+            <li><strong>{{ skill }}</strong>: Level {{ level }} / 5</li>
+          {% endfor %}
+        </ul>
+      </article>
+
+    </section>
+    {% endif %}
+
+    <footer>
+      <p>Made by Vikram @2025</p>
+    </footer>
+  </div>
+</body>
+</html>
